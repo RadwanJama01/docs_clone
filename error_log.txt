@@ -1,0 +1,62 @@
+Traceback (most recent call last):
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: note
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/rjama/flask-backend/app/routes/notes.py", line 34, in create_note
+    db.session.commit()
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/scoping.py", line 599, in commit
+    return self._proxied.commit()
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 2032, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 1313, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 1288, in _prepare_impl
+    self.session.flush()
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4353, in flush
+    self._flush(objects)
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4489, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4449, in _flush
+    flush_context.execute()
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 1048, in _emit_insert_statements
+    result = connection.execute(
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/rjama/flask-backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: note
+[SQL: INSERT INTO note (id, title, content, created_at, updated_at, owner_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (1, 'Test Note from Script', 'This note was created during a test run 🚀', '2025-05-08 17:36:18.235013', '2025-05-08 17:36:18.235016', 1)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

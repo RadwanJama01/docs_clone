@@ -21,3 +21,4 @@ def all_users():
         return jsonify(user_list)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
