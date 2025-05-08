@@ -2,6 +2,7 @@ from flask import Blueprint, request,jsonify
 from app.models.note import Note
 from app import db
 import traceback
+from app.models.user import User  
 
 
 
@@ -84,10 +85,50 @@ def update_note(note_id):
     except Exception as e:
         print(f"Update Error: {e}")
         return jsonify({'message': 'Update failed'}), 500
-
-        
     
-        
+    
+@note_bp.route('/note/<int:note_id>/collaborators', methods=['POST'])
+def add_collaborator(note_id):
+    data = request.get_json()
+    if not data:
+        return jsonify({'message': 'Missing or invalid JSON body'}), 400
+    collaborator_id = data.get('user_id')
+    note = Note.query.get(note_id)
+    
+    if not note or not collaborator_id:
+        return jsonify({'message': 'Missing note or user'}), 400
+
+    user = User.query.get(collaborator_id)
+    if not user:
+        return jsonify({'message': 'Collaborator not found'}), 404
+    if user in note.collaborators:
+        return jsonify({'message': 'User is already a collaborator'}), 409
+    note.collaborators.append(user)
+    db.session.commit()
+    return jsonify({'message': f'Added collaborator {user.username} to note {note_id}'}), 200
+
+@note_bp.route('/notes', methods=['GET'])
+def all_notes():
+    user_id = request.headers.get('X-User-ID')
+    if not user_id:
+        return jsonify({'message': 'Missing user header'}), 400
+
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    owned = Note.query.filter_by(owner_id=user_id).all()
+    shared = user.collaborations  # comes from the backref
+
+    all_notes = owned + shared
+
+    return jsonify([{
+        'id': n.id,
+        'title': n.title,
+        'content': n.content
+    } for n in all_notes]), 200
+
+
     
 
 
